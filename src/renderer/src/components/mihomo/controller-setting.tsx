@@ -64,7 +64,7 @@ const ControllerSetting: React.FC = () => {
 
   return (
     <SettingCard title="外部控制器">
-      <SettingItem title="监听地址" divider={externalController !== ''}>
+      <SettingItem compatKey="legacy" title="监听地址" divider={externalController !== ''}>
         <div className="flex">
           {externalControllerInput != externalController && !externalControllerError && (
             <Button
@@ -104,7 +104,7 @@ const ControllerSetting: React.FC = () => {
       </SettingItem>
       {externalController && externalController !== '' && (
         <>
-          <SettingItem
+          <SettingItem compatKey="legacy"
             title="访问密钥"
             actions={
               <Button
@@ -154,7 +154,7 @@ const ControllerSetting: React.FC = () => {
               />
             </div>
           </SettingItem>
-          <SettingItem title="启用控制器面板" divider>
+          <SettingItem compatKey="legacy" title="启用控制器面板" divider>
             <Switch
               size="sm"
               isSelected={enableExternalUi}
@@ -167,7 +167,7 @@ const ControllerSetting: React.FC = () => {
             />
           </SettingItem>
           {enableExternalUi && (
-            <SettingItem
+            <SettingItem compatKey="legacy"
               title="控制器面板"
               actions={
                 <>
@@ -266,9 +266,9 @@ const ControllerSetting: React.FC = () => {
               </div>
             </SettingItem>
           )}
-          <SettingItem title="CORS 配置"></SettingItem>
+          <SettingItem compatKey="legacy" title="CORS 配置"></SettingItem>
           <div className="flex flex-col space-y-2 mt-2"></div>
-          <SettingItem title="允许私有网络访问">
+          <SettingItem compatKey="legacy" title="允许私有网络访问">
             <Switch
               size="sm"
               isSelected={allowPrivateNetwork}
@@ -283,7 +283,7 @@ const ControllerSetting: React.FC = () => {
             />
           </SettingItem>
           <div className="mt-1"></div>
-          <SettingItem title="允许的来源">
+          <SettingItem compatKey="legacy" title="允许的来源">
             {allowOriginsInput.join(',') != initialAllowOrigins.join(',') && (
               <Button
                 size="sm"

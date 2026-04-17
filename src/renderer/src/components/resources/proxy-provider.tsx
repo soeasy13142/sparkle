@@ -123,7 +123,7 @@ const ProxyProvider: React.FC = () => {
           }
         />
       )}
-      <SettingItem title="代理集合" divider>
+      <SettingItem compatKey="legacy" title="代理集合" divider>
         <Button
           size="sm"
           color="primary"
@@ -138,7 +138,7 @@ const ProxyProvider: React.FC = () => {
       </SettingItem>
       {providers.map((provider, index) => (
         <Fragment key={provider.name}>
-          <SettingItem
+          <SettingItem compatKey="legacy"
             title={provider.name}
             actions={
               <Chip className="ml-2" size="sm">
@@ -152,7 +152,6 @@ const ProxyProvider: React.FC = () => {
               {provider.vehicleType === 'HTTP' && (
                 <Button
                   isIconOnly
-                  title="二维码"
                   className="ml-2"
                   size="sm"
                   onPress={() => onShowQrCode(provider.name)}
@@ -162,7 +161,6 @@ const ProxyProvider: React.FC = () => {
               )}
               <Button
                 isIconOnly
-                title={provider.vehicleType == 'File' ? '编辑' : '查看'}
                 className="ml-2"
                 size="sm"
                 onPress={() => {
@@ -183,7 +181,6 @@ const ProxyProvider: React.FC = () => {
               </Button>
               <Button
                 isIconOnly
-                title="更新"
                 className="ml-2"
                 size="sm"
                 onPress={() => {
@@ -196,7 +193,7 @@ const ProxyProvider: React.FC = () => {
           </SettingItem>
           {provider.subscriptionInfo && (
             <>
-              <SettingItem
+              <SettingItem compatKey="legacy"
                 title={
                   <div className="text-foreground-500">
                     {`${calcTraffic(

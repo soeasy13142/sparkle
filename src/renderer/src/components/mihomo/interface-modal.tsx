@@ -1,12 +1,7 @@
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
   Snippet
 } from '@heroui/react'
+import { Modal } from '@heroui-v3/react'
 import React, { useEffect, useState } from 'react'
 import { getInterfaces } from '@renderer/utils/ipc'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
@@ -17,7 +12,7 @@ interface Props {
 
 const InterfaceModal: React.FC<Props> = (props) => {
   const { onClose } = props
-  const { appConfig: { disableAnimation = false } = {} } = useAppConfig()
+  useAppConfig()
   const [info, setInfo] = useState<Record<string, NetworkInterfaceInfo[]>>({})
   const getInfo = async (): Promise<void> => {
     setInfo(await getInterfaces())
@@ -28,18 +23,19 @@ const InterfaceModal: React.FC<Props> = (props) => {
   }, [])
 
   return (
-    <Modal
-      backdrop={disableAnimation ? 'transparent' : 'blur'}
-      disableAnimation={disableAnimation}
-      classNames={{ backdrop: 'top-[48px]' }}
-      hideCloseButton
-      isOpen={true}
-      onOpenChange={onClose}
-      scrollBehavior="inside"
-    >
-      <ModalContent>
-        <ModalHeader className="flex app-drag">网络信息</ModalHeader>
-        <ModalBody>
+    <Modal>
+      <Modal.Backdrop
+        isOpen={true}
+        onOpenChange={onClose}
+        variant="blur"
+        className="top-12 h-[calc(100%-48px)]"
+      >
+        <Modal.Container scroll="inside">
+          <Modal.Dialog>
+            <Modal.Header className="app-drag">
+              <Modal.Heading>网络信息</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className="no-scrollbar max-h-[70vh] overflow-y-auto">
           {Object.entries(info).map(([key, value]) => {
             return (
               <div key={key}>
@@ -59,13 +55,11 @@ const InterfaceModal: React.FC<Props> = (props) => {
               </div>
             )
           })}
-        </ModalBody>
-        <ModalFooter>
-          <Button size="sm" variant="light" onPress={onClose}>
-            关闭
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+            </Modal.Body>
+            <Modal.CloseTrigger className="app-nodrag" />
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

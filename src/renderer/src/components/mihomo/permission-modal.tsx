@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
   Card,
   CardBody,
@@ -12,6 +7,7 @@ import {
   Chip,
   Divider
 } from '@heroui/react'
+import { Modal } from '@heroui-v3/react'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
 import {
   checkCorePermission,
@@ -29,7 +25,7 @@ interface Props {
 
 const PermissionModal: React.FC<Props> = (props) => {
   const { onChange, onRevoke, onGrant } = props
-  const { appConfig: { disableAnimation = false } = {} } = useAppConfig()
+  useAppConfig()
   const [loading, setLoading] = useState<{ mihomo?: boolean; 'mihomo-alpha'?: boolean }>({})
   const [hasPermission, setHasPermission] = useState<
     { mihomo: boolean; 'mihomo-alpha': boolean } | boolean | null
@@ -109,24 +105,19 @@ const PermissionModal: React.FC<Props> = (props) => {
   }
 
   return (
-    <Modal
-      backdrop={disableAnimation ? 'transparent' : 'blur'}
-      disableAnimation={disableAnimation}
-      hideCloseButton
-      isOpen={true}
-      size="5xl"
-      onOpenChange={onChange}
-      scrollBehavior="inside"
-      classNames={{
-        base: 'max-w-none w-full',
-        backdrop: 'top-[48px]'
-      }}
-    >
-      <ModalContent className="w-112.5">
-        <ModalHeader className="flex flex-col gap-1">
-          {isWindows ? '任务计划管理' : '内核授权管理'}
-        </ModalHeader>
-        <ModalBody>
+    <Modal>
+      <Modal.Backdrop
+        isOpen={true}
+        onOpenChange={onChange}
+        variant="blur"
+        className="top-12 h-[calc(100%-48px)]"
+      >
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="w-112.5">
+            <Modal.Header className="flex-col gap-1">
+              <Modal.Heading>{isWindows ? '任务计划管理' : '内核授权管理'}</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
           <div className="space-y-4">
             {isWindows ? (
               <>
@@ -280,43 +271,45 @@ const PermissionModal: React.FC<Props> = (props) => {
               </>
             )}
           </div>
-        </ModalBody>
-        <ModalFooter className="space-x-2">
-          <Button
-            size="sm"
-            variant="light"
-            onPress={() => onChange(false)}
-            isDisabled={Object.values(loading).some((v) => v)}
-          >
-            关闭
-          </Button>
-          {isWindows &&
-            (() => {
-              const hasAnyPermission = typeof hasPermission === 'boolean' ? hasPermission : false
-              const isLoading = Object.values(loading).some((v) => v)
+            </Modal.Body>
+            <Modal.Footer className="space-x-2">
+              <Button
+                size="sm"
+                variant="light"
+                onPress={() => onChange(false)}
+                isDisabled={Object.values(loading).some((v) => v)}
+              >
+                关闭
+              </Button>
+              {isWindows &&
+                (() => {
+                  const hasAnyPermission = typeof hasPermission === 'boolean' ? hasPermission : false
+                  const isLoading = Object.values(loading).some((v) => v)
 
-              return hasAnyPermission ? (
-                <Button
-                  size="sm"
-                  color="warning"
-                  onPress={() => handleAction(onRevoke)}
-                  isLoading={isLoading}
-                >
-                  取消注册
-                </Button>
-              ) : (
-                <Button
-                  size="sm"
-                  color="primary"
-                  onPress={() => handleAction(onGrant)}
-                  isLoading={isLoading}
-                >
-                  注册计划
-                </Button>
-              )
-            })()}
-        </ModalFooter>
-      </ModalContent>
+                  return hasAnyPermission ? (
+                    <Button
+                      size="sm"
+                      color="warning"
+                      onPress={() => handleAction(onRevoke)}
+                      isLoading={isLoading}
+                    >
+                      取消注册
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      color="primary"
+                      onPress={() => handleAction(onGrant)}
+                      isLoading={isLoading}
+                    >
+                      注册计划
+                    </Button>
+                  )
+                })()}
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

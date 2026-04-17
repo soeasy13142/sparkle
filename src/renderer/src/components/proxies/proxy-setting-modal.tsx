@@ -1,10 +1,4 @@
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
   Switch,
   Input,
   Select,
@@ -12,6 +6,7 @@ import {
   Tab,
   Tabs
 } from '@heroui/react'
+import { Modal } from '@heroui-v3/react'
 import React, { useState, useEffect, useRef } from 'react'
 import SettingItem from '../base/base-setting-item'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
@@ -51,19 +46,20 @@ const ProxySettingModal: React.FC<Props> = (props) => {
   }, [delayTestUrl])
 
   return (
-    <Modal
-      backdrop="blur"
-      classNames={{ backdrop: 'top-[48px]' }}
-      size="xl"
-      hideCloseButton
-      isOpen={true}
-      onOpenChange={onClose}
-      scrollBehavior="inside"
-    >
-      <ModalContent className="flag-emoji">
-        <ModalHeader className="flex pb-0">代理组设置</ModalHeader>
-        <ModalBody className="py-2 gap-1">
-          <SettingItem title="代理节点展示列数" divider>
+    <Modal>
+      <Modal.Backdrop
+        isOpen={true}
+        onOpenChange={onClose}
+        variant="blur"
+        className="top-12 h-[calc(100%-48px)]"
+      >
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="max-w-xl flag-emoji">
+            <Modal.Header className="pb-0">
+              <Modal.Heading>代理组设置</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className="py-2 gap-1">
+          <SettingItem compatKey="legacy" title="代理节点展示列数" divider>
             <Select
               classNames={{ trigger: 'data-[hover=true]:bg-default-200' }}
               className="w-37.5"
@@ -81,7 +77,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               <SelectItem key="4">四列</SelectItem>
             </Select>
           </SettingItem>
-          <SettingItem title="节点排序方式" divider>
+          <SettingItem compatKey="legacy" title="节点排序方式" divider>
             <Tabs
               size="sm"
               color="primary"
@@ -97,7 +93,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               <Tab key="name" title="名称" />
             </Tabs>
           </SettingItem>
-          <SettingItem title="代理组详细信息" divider>
+          <SettingItem compatKey="legacy" title="代理组详细信息" divider>
             <Tabs
               size="sm"
               color="primary"
@@ -113,7 +109,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               <Tab key="double" title="双行" />
             </Tabs>
           </SettingItem>
-          <SettingItem title="代理节点详细信息" divider>
+          <SettingItem compatKey="legacy" title="代理节点详细信息" divider>
             <Tabs
               size="sm"
               color="primary"
@@ -129,7 +125,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               <Tab key="double" title="双行" />
             </Tabs>
           </SettingItem>
-          <SettingItem title="切换节点时断开连接" divider>
+          <SettingItem compatKey="legacy" title="切换节点时断开连接" divider>
             <Switch
               size="sm"
               isSelected={autoCloseConnection}
@@ -139,7 +135,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
             />
           </SettingItem>
           {autoCloseConnection && (
-            <SettingItem title="打断模式" divider>
+            <SettingItem compatKey="legacy" title="打断模式" divider>
               <Tabs
                 size="sm"
                 color="primary"
@@ -155,7 +151,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               </Tabs>
             </SettingItem>
           )}
-          <SettingItem title="延迟测试地址" divider>
+          <SettingItem compatKey="legacy" title="延迟测试地址" divider>
             <Input
               size="sm"
               className="w-[60%]"
@@ -167,7 +163,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-          <SettingItem title="测试地址来源" divider>
+          <SettingItem compatKey="legacy" title="测试地址来源" divider>
             <Tabs
               size="sm"
               color="primary"
@@ -182,7 +178,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               <Tab key="global" title="使用统一地址" />
             </Tabs>
           </SettingItem>
-          <SettingItem title="延迟测试并发数量" divider>
+          <SettingItem compatKey="legacy" title="延迟测试并发数量" divider>
             <Input
               type="number"
               size="sm"
@@ -194,7 +190,7 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-          <SettingItem title="延迟测试超时时间">
+          <SettingItem compatKey="legacy" title="延迟测试超时时间">
             <Input
               type="number"
               size="sm"
@@ -206,13 +202,11 @@ const ProxySettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-        </ModalBody>
-        <ModalFooter>
-          <Button size="sm" variant="light" onPress={onClose}>
-            关闭
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+            </Modal.Body>
+            <Modal.CloseTrigger className="app-nodrag" />
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

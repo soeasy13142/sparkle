@@ -84,12 +84,12 @@ const Actions: React.FC = () => {
         />
       )}
       <SettingCard>
-        <SettingItem title="打开引导页面" divider>
+        <SettingItem compatKey="legacy" title="打开引导页面" divider>
           <Button size="sm" onPress={() => startTour(navigate)}>
             打开引导页面
           </Button>
         </SettingItem>
-        <SettingItem title="检查更新" divider>
+        <SettingItem compatKey="legacy" title="检查更新" divider>
           <Button
             size="sm"
             isLoading={checkingUpdate}
@@ -114,7 +114,7 @@ const Actions: React.FC = () => {
             检查更新
           </Button>
         </SettingItem>
-        <SettingItem
+        <SettingItem compatKey="legacy"
           title="重置软件"
           actions={
             <Tooltip content="删除所有配置，将软件恢复初始状态">
@@ -129,7 +129,7 @@ const Actions: React.FC = () => {
             重置软件
           </Button>
         </SettingItem>
-        <SettingItem
+        <SettingItem compatKey="legacy"
           title="清除缓存"
           actions={
             <Tooltip content="清除软件渲染进程缓存">
@@ -144,7 +144,7 @@ const Actions: React.FC = () => {
             清除缓存
           </Button>
         </SettingItem>
-        <SettingItem
+        <SettingItem compatKey="legacy"
           title="创建堆快照"
           actions={
             <Tooltip content="创建主进程堆快照，用于排查内存问题">
@@ -159,7 +159,7 @@ const Actions: React.FC = () => {
             创建堆快照
           </Button>
         </SettingItem>
-        <SettingItem
+        <SettingItem compatKey="legacy"
           title="保留内核退出"
           actions={
             <Tooltip content="完全退出软件，只保留内核进程">
@@ -174,12 +174,12 @@ const Actions: React.FC = () => {
             退出
           </Button>
         </SettingItem>
-        <SettingItem title="退出应用" divider>
+        <SettingItem compatKey="legacy" title="退出应用" divider>
           <Button size="sm" onPress={quitApp}>
             退出应用
           </Button>
         </SettingItem>
-        <SettingItem title="应用版本">
+        <SettingItem compatKey="legacy" title="应用版本">
           <div>v{version}</div>
         </SettingItem>
       </SettingCard>

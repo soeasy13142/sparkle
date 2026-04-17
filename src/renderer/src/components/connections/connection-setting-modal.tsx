@@ -1,13 +1,9 @@
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   Button,
   Switch,
-  ModalBody,
   Input
 } from '@heroui/react'
+import { Modal } from '@heroui-v3/react'
 import React, { useState } from 'react'
 import SettingItem from '../base/base-setting-item'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
@@ -25,19 +21,20 @@ const ConnectionSettingModal: React.FC<Props> = (props) => {
   const [intervalInput, setIntervalInput] = useState(connectionInterval)
 
   return (
-    <Modal
-      backdrop="blur"
-      classNames={{ backdrop: 'top-[48px]' }}
-      size="md"
-      hideCloseButton
-      isOpen={true}
-      onOpenChange={onClose}
-      scrollBehavior="inside"
-    >
-      <ModalContent className="flag-emoji">
-        <ModalHeader className="flex">连接设置</ModalHeader>
-        <ModalBody className="py-2 gap-1">
-          <SettingItem title="显示应用图标" divider>
+    <Modal>
+      <Modal.Backdrop
+        isOpen={true}
+        onOpenChange={onClose}
+        variant="blur"
+        className="top-12 h-[calc(100%-48px)]"
+      >
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="max-w-md flag-emoji">
+            <Modal.Header>
+              <Modal.Heading>连接设置</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className="py-2 gap-1">
+          <SettingItem compatKey="legacy" title="显示应用图标" divider>
             <Switch
               size="sm"
               isSelected={displayIcon}
@@ -46,7 +43,7 @@ const ConnectionSettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-          <SettingItem title="显示应用名称" divider>
+          <SettingItem compatKey="legacy" title="显示应用名称" divider>
             <Switch
               size="sm"
               isSelected={displayAppName}
@@ -55,7 +52,7 @@ const ConnectionSettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-          <SettingItem title="刷新间隔">
+          <SettingItem compatKey="legacy" title="刷新间隔">
             <div className="flex">
               {intervalInput !== connectionInterval && (
                 <Button
@@ -86,13 +83,11 @@ const ConnectionSettingModal: React.FC<Props> = (props) => {
               />
             </div>
           </SettingItem>
-        </ModalBody>
-        <ModalFooter>
-          <Button size="sm" variant="light" onPress={onClose}>
-            关闭
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+            </Modal.Body>
+            <Modal.CloseTrigger className="app-nodrag" />
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

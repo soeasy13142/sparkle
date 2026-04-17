@@ -1,10 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
   Spinner,
   Card,
@@ -12,6 +7,7 @@ import {
   Chip,
   Divider
 } from '@heroui/react'
+import { Modal } from '@heroui-v3/react'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
 import { serviceStatus, testServiceConnection } from '@renderer/utils/ipc'
 
@@ -30,7 +26,7 @@ type ConnectionStatusType = 'connected' | 'disconnected' | 'checking' | 'unknown
 
 const ServiceModal: React.FC<Props> = (props) => {
   const { onChange, onInit, onInstall, onUninstall, onStart, onStop, onRestart } = props
-  const { appConfig: { disableAnimation = false } = {} } = useAppConfig()
+  useAppConfig()
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<ServiceStatusType | null>(null)
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatusType>('checking')
@@ -132,22 +128,19 @@ const ServiceModal: React.FC<Props> = (props) => {
   }
 
   return (
-    <Modal
-      backdrop={disableAnimation ? 'transparent' : 'blur'}
-      disableAnimation={disableAnimation}
-      hideCloseButton
-      isOpen={true}
-      size="5xl"
-      onOpenChange={onChange}
-      scrollBehavior="inside"
-      classNames={{
-        base: 'max-w-none w-full',
-        backdrop: 'top-[48px]'
-      }}
-    >
-      <ModalContent className="w-112.5">
-        <ModalHeader className="flex flex-col gap-1">Sparkle 服务管理</ModalHeader>
-        <ModalBody>
+    <Modal>
+      <Modal.Backdrop
+        isOpen={true}
+        onOpenChange={onChange}
+        variant="blur"
+        className="top-12 h-[calc(100%-48px)]"
+      >
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="w-112.5">
+            <Modal.Header className="flex-col gap-1">
+              <Modal.Heading>Sparkle 服务管理</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
           <div className="space-y-4">
             <Card
               shadow="sm"
@@ -237,82 +230,84 @@ const ServiceModal: React.FC<Props> = (props) => {
               </div>
             </div>
           </div>
-        </ModalBody>
-        <ModalFooter className="flex-col gap-2 sm:flex-row">
-          <Button
-            size="sm"
-            variant="light"
-            onPress={() => onChange(false)}
-            isDisabled={loading}
-            className="sm:mr-auto"
-          >
-            关闭
-          </Button>
+            </Modal.Body>
+            <Modal.Footer className="flex-col gap-2 sm:flex-row">
+              <Button
+                size="sm"
+                variant="light"
+                onPress={() => onChange(false)}
+                isDisabled={loading}
+                className="sm:mr-auto"
+              >
+                关闭
+              </Button>
 
-          {status === 'unknown' ? null : status === 'not-installed' ? (
-            <Button
-              size="sm"
-              color="primary"
-              variant="shadow"
-              onPress={() => handleAction(onInstall)}
-              isLoading={loading}
-            >
-              安装服务
-            </Button>
-          ) : (
-            <>
-              <Button
-                size="sm"
-                color="primary"
-                variant="flat"
-                onPress={() => handleAction(onInit)}
-                isLoading={loading}
-              >
-                初始化
-              </Button>
-              <Button
-                size="sm"
-                color="primary"
-                variant="flat"
-                onPress={() => handleAction(onRestart)}
-                isLoading={loading}
-              >
-                重启
-              </Button>
-              {status === 'running' || status === 'need-init' ? (
+              {status === 'unknown' ? null : status === 'not-installed' ? (
                 <Button
                   size="sm"
-                  color="warning"
-                  variant="flat"
-                  onPress={() => handleAction(onStop)}
+                  color="primary"
+                  variant="shadow"
+                  onPress={() => handleAction(onInstall)}
                   isLoading={loading}
                 >
-                  停止
+                  安装服务
                 </Button>
               ) : (
-                <Button
-                  size="sm"
-                  color="success"
-                  variant="shadow"
-                  onPress={() => handleAction(onStart, true)}
-                  isLoading={loading}
-                >
-                  启动
-                </Button>
+                <>
+                  <Button
+                    size="sm"
+                    color="primary"
+                    variant="flat"
+                    onPress={() => handleAction(onInit)}
+                    isLoading={loading}
+                  >
+                    初始化
+                  </Button>
+                  <Button
+                    size="sm"
+                    color="primary"
+                    variant="flat"
+                    onPress={() => handleAction(onRestart)}
+                    isLoading={loading}
+                  >
+                    重启
+                  </Button>
+                  {status === 'running' || status === 'need-init' ? (
+                    <Button
+                      size="sm"
+                      color="warning"
+                      variant="flat"
+                      onPress={() => handleAction(onStop)}
+                      isLoading={loading}
+                    >
+                      停止
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      color="success"
+                      variant="shadow"
+                      onPress={() => handleAction(onStart, true)}
+                      isLoading={loading}
+                    >
+                      启动
+                    </Button>
+                  )}
+                  <Button
+                    size="sm"
+                    color="danger"
+                    variant="flat"
+                    onPress={() => handleAction(onUninstall)}
+                    isLoading={loading}
+                  >
+                    卸载
+                  </Button>
+                </>
               )}
-              <Button
-                size="sm"
-                color="danger"
-                variant="flat"
-                onPress={() => handleAction(onUninstall)}
-                isLoading={loading}
-              >
-                卸载
-              </Button>
-            </>
-          )}
-        </ModalFooter>
-      </ModalContent>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }

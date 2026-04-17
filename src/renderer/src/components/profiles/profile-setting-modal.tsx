@@ -1,9 +1,4 @@
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
   Switch,
   Input,
@@ -11,6 +6,7 @@ import {
   Tabs,
   Tooltip
 } from '@heroui/react'
+import { Modal } from '@heroui-v3/react'
 import React, { useState, useEffect, useRef } from 'react'
 import SettingItem from '../base/base-setting-item'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
@@ -56,19 +52,20 @@ const ProfileSettingModal: React.FC<Props> = (props) => {
   }, [userAgent])
 
   return (
-    <Modal
-      backdrop="blur"
-      classNames={{ backdrop: 'top-[48px]' }}
-      size="md"
-      hideCloseButton
-      isOpen={true}
-      onOpenChange={onClose}
-      scrollBehavior="inside"
-    >
-      <ModalContent className="flag-emoji">
-        <ModalHeader className="flex pb-0">订阅设置</ModalHeader>
-        <ModalBody className="py-2 gap-1">
-          <SettingItem title="显示日期" divider>
+    <Modal>
+      <Modal.Backdrop
+        isOpen={true}
+        onOpenChange={onClose}
+        variant="blur"
+        className="top-12 h-[calc(100%-48px)]"
+      >
+        <Modal.Container scroll="inside">
+          <Modal.Dialog className="max-w-md flag-emoji">
+            <Modal.Header className="pb-0">
+              <Modal.Heading>订阅设置</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body className="py-2 gap-1">
+          <SettingItem compatKey="legacy" title="显示日期" divider>
             <Tabs
               size="sm"
               color="primary"
@@ -83,7 +80,7 @@ const ProfileSettingModal: React.FC<Props> = (props) => {
               <Tab key="expire" title="到期时间" />
             </Tabs>
           </SettingItem>
-          <SettingItem
+          <SettingItem compatKey="legacy"
             title="为不同订阅分别指定工作目录"
             actions={
               <Tooltip content="开启后可以避免不同订阅中存在相同代理组名时无法分别保存选择的节点">
@@ -102,7 +99,7 @@ const ProfileSettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-          <SettingItem title="订阅拉取 UA" divider>
+          <SettingItem compatKey="legacy" title="订阅拉取 UA" divider>
             <Input
               size="sm"
               className="w-[60%]"
@@ -114,7 +111,7 @@ const ProfileSettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-          <SettingItem
+          <SettingItem compatKey="legacy"
             title="同步运行时配置到 Gist"
             actions={
               <Button
@@ -148,13 +145,11 @@ const ProfileSettingModal: React.FC<Props> = (props) => {
               }}
             />
           </SettingItem>
-        </ModalBody>
-        <ModalFooter>
-          <Button size="sm" variant="light" onPress={onClose}>
-            关闭
-          </Button>
-        </ModalFooter>
-      </ModalContent>
+            </Modal.Body>
+            <Modal.CloseTrigger className="app-nodrag" />
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   )
 }
